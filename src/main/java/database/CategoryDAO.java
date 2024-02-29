@@ -1,7 +1,6 @@
 package database;
 
 import model.Category;
-import model.Product;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -94,21 +93,70 @@ public class CategoryDAO implements DAOInterface<Category>{
 
     @Override
     public int insertAll(ArrayList<Category> list) {
-        return 0;
+        int result = 0;
+        for (Category category : list) {
+            if (this.insert(category) == 1)
+                result += 1;
+        }
+        return result;
     }
 
     @Override
     public int delete(Category category) {
-        return 0;
+        int result =0;
+
+        try {
+            Connection con = JDBCUtil.getConnection();
+
+            String sql = "DELETE from categories "
+                    + "WHERE category_id=?";
+
+            PreparedStatement rs = con.prepareStatement(sql);
+            rs.setInt(1, category.getCategoryId());
+
+
+
+            result= rs.executeUpdate();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return result;
     }
 
     @Override
     public int deleteAll(ArrayList<Category> list) {
-        return 0;
+        int result = 0;
+        for (Category category : list) {
+            result += delete(category);
+        }
+        return result;
     }
 
     @Override
     public int update(Category category) {
-        return 0;
+        int result = 0;
+        Category oldCategory = this.selectById(category.getCategoryId());
+        if(oldCategory !=null) {
+            try {
+                Connection con = JDBCUtil.getConnection();
+                String sql = "UPDATE book.categories SET  category_name=? "+ "WHERE category_id =?";
+                PreparedStatement rs = con.prepareStatement(sql);
+                rs.setString(1, category.getCategoryName());
+                rs.setInt(2, category.getCategoryId());
+                result = rs.executeUpdate();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        return result;
+    }
+
+    public static void main(String[] args) {
+        CategoryDAO categoryDAO = new CategoryDAO();
+        ArrayList<Category> categories = categoryDAO.selectAll();
+        for(Category c : categories){
+            System.out.println(c.getCategoryName());
+        }
     }
 }

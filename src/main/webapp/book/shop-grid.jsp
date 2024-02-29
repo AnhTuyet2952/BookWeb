@@ -52,7 +52,7 @@
         </div>
     </section>
     <!-- Breadcrumb Section End -->
-
+<jsp:useBean id="categoryDAO" class="database.CategoryDAO">
     <!-- Product Section Begin -->
     <section class="product spad">
         <div class="container">
@@ -62,18 +62,13 @@
                         <div class="sidebar__item">
                             <h4>Department</h4>
                             <ul>
-                                <li><a href="#">Fresh Meat</a></li>
-                                <li><a href="#">Vegetables</a></li>
-                                <li><a href="#">Fruit & Nut Gifts</a></li>
-                                <li><a href="#">Fresh Berries</a></li>
-                                <li><a href="#">Ocean Foods</a></li>
-                                <li><a href="#">Butter & Eggs</a></li>
-                                <li><a href="#">Fastfood</a></li>
-                                <li><a href="#">Fresh Onion</a></li>
-                                <li><a href="#">Papayaya & Crisps</a></li>
-                                <li><a href="#">Oatmeal</a></li>
+                                <c:forEach var="ca" items="${categoryDAO.selectAll()}">
+                                <li><a href="#">${ca.categoryName}</a></li>
+                                <li>${ca.categoryId}</li>
+                                </c:forEach>
                             </ul>
                         </div>
+
                         <div class="sidebar__item">
                             <h4>Price</h4>
                             <div class="price-range-wrap">
@@ -558,6 +553,7 @@
             </div>
         </div>
     </section>
+</jsp:useBean>
     <!-- Product Section End -->
 
     <!-- Footer Section Begin -->
@@ -567,7 +563,7 @@
                 <div class="col-lg-3 col-md-6 col-sm-6">
                     <div class="footer__about">
                         <div class="footer__about__logo">
-                            <a href="./index.html"><img src="img/logo.png" alt=""></a>
+                            <a href="./index.jsp"><img src="img/logo.png" alt=""></a>
                         </div>
                         <ul>
                             <li>Address: 60-49 Road 11378 New York</li>

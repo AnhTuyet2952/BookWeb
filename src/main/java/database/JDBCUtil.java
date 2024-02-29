@@ -43,4 +43,19 @@ public class JDBCUtil {
         }
     }
 
+    public static void main(String[] args) {
+        Connection connection = null;
+        try {
+            // Lấy kết nối
+            connection = JDBCUtil.getConnection();
+
+            // In thông tin kết nối
+            JDBCUtil.printInfo(connection);
+
+            // Đóng kết nối
+            JDBCUtil.closeConnection(connection);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 }
