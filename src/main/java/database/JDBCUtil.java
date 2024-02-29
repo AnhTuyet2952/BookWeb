@@ -1,6 +1,5 @@
 package database;
 
-import com.sun.corba.se.impl.oa.poa.ActiveObjectMap;
 
 import java.sql.Connection;
 import java.sql.DatabaseMetaData;

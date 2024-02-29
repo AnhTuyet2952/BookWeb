@@ -9,7 +9,6 @@ public class Order {
     private double totalPrice;
     private String nameConsignee;
     private String phone;
-    private String email;
     private String address;
     private Payment payment;
     private String status;
@@ -17,19 +16,17 @@ public class Order {
     private String note;
     private List<OrderDetail> orderDetailList;
 
-    public Order(int orderId, User user, double totalPrice, String nameConsignee, String phone, String email, String address, Payment payment, String status, Date bookingDate, String note, List<OrderDetail> orderDetailList) {
+    public Order(int orderId, User user, double totalPrice, String nameConsignee, String phone, String address, Payment payment, String status, Date bookingDate, String note) {
         this.orderId = orderId;
         this.user = user;
         this.totalPrice = totalPrice;
         this.nameConsignee = nameConsignee;
         this.phone = phone;
-        this.email = email;
         this.address = address;
         this.payment = payment;
         this.status = status;
         this.bookingDate = bookingDate;
         this.note = note;
-        this.orderDetailList = orderDetailList;
     }
 
     public int getOrderId() {
@@ -70,14 +67,6 @@ public class Order {
 
     public void setPhone(String phone) {
         this.phone = phone;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
     }
 
     public String getAddress() {
