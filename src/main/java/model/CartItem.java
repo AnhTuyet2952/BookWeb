@@ -10,6 +10,11 @@ public class CartItem {
     public CartItem() {
     }
 
+    public CartItem(Product product, int quantity) {
+        this.product = product;
+        this.quantity = quantity;
+    }
+
     public CartItem(int cartItemId, Product product, int quantity, double price, Cart cart) {
         this.cartItemId = cartItemId;
         this.product = product;

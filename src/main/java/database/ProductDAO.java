@@ -8,6 +8,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.List;
 
 public class ProductDAO implements DAOInterface<Product> {
     @Override
@@ -62,7 +63,7 @@ public class ProductDAO implements DAOInterface<Product> {
             Connection con = JDBCUtil.getConnection();
 
             // tao cau lenh sql
-            String sql = "SELECT * FROM products ORDER BY CAST(product_id AS SIGNED)";
+            String sql = "SELECT * FROM products";
 
             PreparedStatement st = con.prepareStatement(sql);
 
@@ -98,6 +99,65 @@ public class ProductDAO implements DAOInterface<Product> {
             throw new RuntimeException(e);
         }
         return products;
+    }
+    public ArrayList<Product> selectAllOrderBytt(String orderBy) {
+        ArrayList<Product> products = new ArrayList<>();
+        try {
+            // tao mot connection
+            Connection con = JDBCUtil.getConnection();
+
+            // tao cau lenh sql
+            String sql = "SELECT * FROM products";
+            if ("price-asc".equals(orderBy)) {
+                sql += " ORDER BY price";
+            } else if ("price-desc".equals(orderBy)) {
+                sql += " ORDER BY price DESC";
+            } else {
+                // mặc định sắp xếp theo ID sản phẩm
+                sql += " ORDER BY CAST(product_id AS SIGNED)";
+            }
+            PreparedStatement st = con.prepareStatement(sql);
+
+            // thuc thi
+
+            ResultSet rs = st.executeQuery();
+
+            while (rs.next()) {
+
+                int idProduct = rs.getInt("product_id");
+                String nameProduct = rs.getString("product_name");
+                String description = rs.getString("description");
+                String image = rs.getString("image");
+                double unitPrice = rs.getDouble("unit_price");
+                double price = rs.getDouble("price");
+                int quantity = rs.getInt("quantity");
+                String author = rs.getString("author");
+                int publicationYear = rs.getInt("publication_year");
+                String publisher = rs.getString("publisher");
+                int categoryId = rs.getInt("category_id");
+
+                Category category = new CategoryDAO().selectById(categoryId);
+                Product product = new Product(idProduct,nameProduct,description,image,unitPrice,price,quantity,author,publicationYear,publisher,category);
+
+
+                products.add(product);
+
+            }
+
+            JDBCUtil.closeConnection(con);
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return products;
+    }
+    //dem trang
+    public List<Product> getListByPage(List<Product> list, int start, int end){
+        List<Product> arr = new ArrayList<Product>();
+        for (int i = start; i < end; i++) {
+            arr.add(list.get(i));
+        }
+        return arr;
     }
     @Override
     public Product selectById(int id) {

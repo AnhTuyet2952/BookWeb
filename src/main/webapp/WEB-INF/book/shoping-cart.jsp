@@ -1,4 +1,6 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@page isELIgnored="false" %>
 <!DOCTYPE html>
 <html lang="zxx">
 
@@ -69,72 +71,36 @@
                                 </tr>
                             </thead>
                             <tbody>
+                            <c:set var="total" value="0" />
+                            <c:forEach var="item" items="${sessionScope.cart.cartItems}">
                                 <tr>
                                     <td class="shoping__cart__item">
                                         <img src="img/cart/cart-1.jpg" alt="">
-                                        <h5>Vegetable’s Package</h5>
+                                        <h5>${item.product.product_name}</h5>
                                     </td>
                                     <td class="shoping__cart__price">
-                                        $55.00
+                                            ${item.product.price}
                                     </td>
                                     <td class="shoping__cart__quantity">
                                         <div class="quantity">
                                             <div class="pro-qty">
-                                                <input type="text" value="1">
+                                                <input type="number" name="quantity" value="1" min="1">
                                             </div>
                                         </div>
                                     </td>
+                                    <c:set var="total" value="${total + (item.product.price * item.quantity)}" />
                                     <td class="shoping__cart__total">
-                                        $110.00
+                                            ${total}
                                     </td>
-                                    <td class="shoping__cart__item__close">
-                                        <span class="icon_close"></span>
-                                    </td>
+                                    <form action="RemoveItemCart" method="post">
+                                        <td class="shoping__cart__item__close">
+                                            <input type="hidden" name="productId" value="${item.product.productId}">
+                                            <button type="submit" class="icon_close" style="border: none; background-color: transparent;"></button>
+                                        </td>
+                                    </form>
                                 </tr>
-                                <tr>
-                                    <td class="shoping__cart__item">
-                                        <img src="img/cart/cart-2.jpg" alt="">
-                                        <h5>Fresh Garden Vegetable</h5>
-                                    </td>
-                                    <td class="shoping__cart__price">
-                                        $39.00
-                                    </td>
-                                    <td class="shoping__cart__quantity">
-                                        <div class="quantity">
-                                            <div class="pro-qty">
-                                                <input type="text" value="1">
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td class="shoping__cart__total">
-                                        $39.99
-                                    </td>
-                                    <td class="shoping__cart__item__close">
-                                        <span class="icon_close"></span>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td class="shoping__cart__item">
-                                        <img src="img/cart/cart-3.jpg" alt="">
-                                        <h5>Organic Bananas</h5>
-                                    </td>
-                                    <td class="shoping__cart__price">
-                                        $69.00
-                                    </td>
-                                    <td class="shoping__cart__quantity">
-                                        <div class="quantity">
-                                            <div class="pro-qty">
-                                                <input type="text" value="1">
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td class="shoping__cart__total">
-                                        $69.99
-                                    </td>
-                                    <td class="shoping__cart__item__close">
-                                        <span class="icon_close"></span>
-                                    </td>
-                                </tr>
+                            </c:forEach>
+
                             </tbody>
                         </table>
                     </div>
