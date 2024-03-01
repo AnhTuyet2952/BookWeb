@@ -12,7 +12,12 @@
         <div class="humberger__menu__cart">
             <ul>
                 <li><a href="#"><i class="fa fa-heart"></i> <span>2</span></a></li>
-                <li><a href="/Cart"><i class="fa fa-shopping-bag"></i> <span>12</span></a></li>
+                <li>
+                    <a href="Cart">
+                        <i class="fa fa-shopping-bag"></i>
+                        <span>${empty sessionScope.cart ? '0' : sessionScope.cart.calculateTotalQuantity()}</span>
+                    </a>
+                </li>
             </ul>
             <div class="header__cart__price">item: <span>$150.00</span></div>
         </div>
@@ -129,14 +134,12 @@
                     <div class="header__cart">
                         <ul>
                             <li><a href="#"><i class="fa fa-heart"></i> <span>2</span></a></li>
-                            <li><a href="/Cart"><i class="fa fa-shopping-bag"></i> <span> <c:choose>
-                                <c:when test="${empty cart.calculateTotalQuantity()}">
-                                    0
-                                </c:when>
-                                <c:otherwise>
-                                    ${cart.calculateTotalQuantity()}
-                                </c:otherwise>
-                            </c:choose></span></a></li>
+                            <li>
+                                <a href="Cart">
+                                    <i class="fa fa-shopping-bag"></i>
+                                    <span>${empty sessionScope.cart ? '0' : sessionScope.cart.calculateTotalQuantity()}</span>
+                                </a>
+                            </li>
                         </ul>
                         <div class="header__cart__price">item: <span>$150.00</span></div>
                     </div>

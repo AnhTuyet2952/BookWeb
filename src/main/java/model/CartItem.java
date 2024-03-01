@@ -44,7 +44,8 @@ public class CartItem {
     }
 
     public void setQuantity(int quantity) {
-        this.quantity = quantity;
+        this.quantity = Math.max(quantity, 1);
+        this.price = totalProduct();
     }
 
     public double getPrice() {
@@ -61,5 +62,8 @@ public class CartItem {
 
     public void setCart(Cart cart) {
         this.cart = cart;
+    }
+    public double totalProduct() {
+        return quantity*product.getPrice();
     }
 }

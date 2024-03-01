@@ -1,114 +1,123 @@
 package model;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 
 public class Cart {
-    private int cartId;
-    private User user;
-    private List<CartItem> cartItems;
-
-    public Cart(int cartId, User user) {
+    private String cartId;
+    private User buyer;
+    private Date buyDate;
+    private List<CartItem> cart_items;
+    public Cart(String cartId, User buyer, Date buyDate) {
+        super();
         this.cartId = cartId;
-        this.user = user;
+        this.buyer = buyer;
+        this.buyDate = buyDate;
     }
 
     public Cart() {
-        this.cartItems = new ArrayList<>();
+        this.cart_items = new ArrayList<>();
+    }
+    public boolean isEmpty() {
+        return cart_items == null || cart_items.isEmpty();
     }
 
-    public int getCartId() {
+    public List<CartItem> getCart_items() {
+        return cart_items;
+    }
+    public void setCart_items(List<CartItem> cart_items) {
+        this.cart_items = cart_items;
+    }
+    public User getBuyer() {
+        return buyer;
+    }
+    public void setBuyer(User buyer) {
+        this.buyer = buyer;
+    }
+    public String getCartId() {
         return cartId;
     }
-
-    public void setCartId(int cartId) {
+    public void setCartId(String cartId) {
         this.cartId = cartId;
     }
 
-    public User getUser() {
-        return user;
+    public Date getBuyDate() {
+        return buyDate;
     }
-
-    public void setUser(User user) {
-        this.user = user;
+    public void setBuyDate(Date buyDate) {
+        this.buyDate = buyDate;
     }
-
-    public List<CartItem> getCartItems() {
-        return cartItems;
-    }
-
-    public void setCartItems(List<CartItem> cartItems) {
-        this.cartItems = cartItems;
-    }
-    /*
-    Tinh tong so luong san pham
-     */
-    public int calculateTotalQuantity(){
+    //tinh tong so luong san pham
+    public int calculateTotalQuantity() {
         int totalQuantity = 0;
-        // san pham co trogn gio hang khac null
-            if(cartItems != null){
-                for (CartItem cartItem : cartItems) {
-                    totalQuantity += cartItem.getQuantity();
-                }
+        if (cart_items != null) {
+            for (CartItem item : cart_items) {
+                totalQuantity += item.getQuantity();
             }
+        }
         return totalQuantity;
     }
-    /*
-    kiem tra san pham co ton tai trong gio hang chua
-    bang cach tim theo id
-     */
-    public CartItem findCartItemById(int productId){
-        for (CartItem cartItem : cartItems) {
-            if(cartItem.getProduct().getProductId()==productId){
-                return cartItem;
-            }
-        }
-        return null;
-    }
-    /*
-    xu ly them vao gio hang
-     */
-    public void addToCart(CartItem cartItem){
-        // kiem tra san pham da ton tai chua
-        for (CartItem item : cartItems) {
-            // neu ton tai, tang so luong len 1
-            if(cartItem.getProduct().getProductId()==cartItem.getProduct().getProductId()){
-                cartItem.setQuantity(cartItem.getQuantity() + cartItem.getQuantity());
-                return;
-            }
-        }
-    }
-    /*
-    cap nhat so luong san pham
-    tren trang cart
-     */
-    public void updateQuantity(int productId, int quantity){
-        for (CartItem cartItem : cartItems) {
-            if(cartItem.getProduct().getProductId()==productId){
-                cartItem.setQuantity(quantity);
-                return;
-            }
-        }
-    }
-    /*
-    Xoa item trong gio hang
-     */
-    public void remoteItem(int productId){
-        Iterator<CartItem> iterator = cartItems.iterator();
+    public void removeItem(int productid) {
+        Iterator<CartItem> iterator = cart_items.iterator();
         while (iterator.hasNext()) {
             CartItem cartItem = iterator.next();
-            if (cartItem.getProduct().getProductId()==productId) {
+            if (cartItem.getProduct().getProductId()==productid) {
                 iterator.remove();
                 return; // Đã xóa sản phẩm, không cần kiểm tra các phần tử khác
             }
         }
+
     }
-    /*
-    khi dat hang thanh cong
-    xoa san pham trong gio hang
-     */
+    public double calculateTotal() {
+        double total = 0;
+
+        if (cart_items != null) {
+            for (CartItem item : cart_items) {
+                total += item.getProduct().getPrice() * item.getQuantity();
+            }
+        }
+
+        return total;
+    }
+
+    public void addToCart(CartItem cartItem) {
+        // Kiểm tra xem sản phẩm đã tồn tại trong giỏ hàng chưa
+        for (CartItem item : cart_items) {
+            if (item.getProduct().getProductId()==cartItem.getProduct().getProductId()) {
+                // Nếu đã tồn tại, tăng số lượng lên
+                item.setQuantity(item.getQuantity() + cartItem.getQuantity());
+                return;
+            }
+        }
+        // Nếu chưa tồn tại, thêm mới vào giỏ hàng
+        cart_items.add(cartItem);
+    }
+    public void updateQuantity(int productId, int newquantity) {
+        for (CartItem cart_item : cart_items) {
+            if(cart_item.getProduct().getProductId()==productId) {
+                cart_item.setQuantity(newquantity);
+                return;
+            }
+        }
+    }
+    public CartItem findCartItemId(int productid) {
+        for (CartItem cart_item : cart_items) {
+            if(cart_item.getProduct().getProductId()==productid) {
+                return cart_item;
+            }
+        }
+        return null;
+    }
+    public void increaseQuantity(int productId) {
+        CartItem item = findCartItemId(productId);
+        if(item!=null) {
+            //tang so luong cua cartiem len 1
+            item.setQuantity(item.getQuantity()+1);
+        }
+    }
     public void clearCart() {
-        cartItems.clear();
+        cart_items.clear();
     }
 }

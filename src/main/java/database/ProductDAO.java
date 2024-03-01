@@ -319,4 +319,10 @@ public class ProductDAO implements DAOInterface<Product> {
 
         return result;
     }
+
+    public static void main(String[] args) {
+        ProductDAO productDAO = new ProductDAO();
+        Product product = productDAO.selectById(2);
+        System.out.println(product.getProduct_name());
+    }
 }

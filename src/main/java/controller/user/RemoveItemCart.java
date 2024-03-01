@@ -24,7 +24,7 @@ public class RemoveItemCart extends HttpServlet {
         Cart cart = (Cart) request.getSession().getAttribute("cart");
         if (cart != null) {
             // Xóa sản phẩm khỏi giỏ hàng
-            cart.remoteItem(product_id);
+            cart.removeItem(product_id);
         }
 
         // Cập nhật session

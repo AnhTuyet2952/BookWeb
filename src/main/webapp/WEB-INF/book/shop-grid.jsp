@@ -24,6 +24,20 @@
     <link rel="stylesheet" href="css/owl.carousel.min.css" type="text/css">
     <link rel="stylesheet" href="css/slicknav.min.css" type="text/css">
     <link rel="stylesheet" href="css/style.css" type="text/css">
+    <style>
+        .submit-button {
+            border: none;
+            background: none;
+            padding: 0;
+            font-size: 0; /* Ẩn văn bản trong nút */
+            cursor: pointer;
+        }
+
+        .submit-button .fa {
+            font-size: 24px; /* Kích thước biểu tượng */
+            color: #000; /* Màu của biểu tượng */
+        }
+    </style>
 </head>
 
 <body>
@@ -371,11 +385,14 @@
                                     <ul class="product__item__pic__hover">
                                         <li><a href="#"><i class="fa fa-heart"></i></a></li>
                                         <li><a href="#"><i class="fa fa-retweet"></i></a></li>
-                                        <form action="AddToCart" method="post">
-                                            <input type="hidden" name="productId"
-                                                   value="${p.productId}">
-                                        <li><a href="#"><i class="fa fa-shopping-cart"><input type="submit"></i></a></li>
-                                        </form>
+                                        <li>
+                                            <form class="add-to-cart-form" action="AddToCart" method="post" id="addToCartForm">
+                                                <input type="hidden" name="productId" value="${p.productId}">
+                                                <button class="submit-button" type="submit">
+                                                    <a href="#"><i class="fa fa-shopping-cart"></i></a>
+                                                </button>
+                                            </form>
+                                        </li>
                                     </ul>
                                 </div>
                                 <div class="product__item__text">

@@ -71,8 +71,7 @@
                                 </tr>
                             </thead>
                             <tbody>
-                            <c:set var="total" value="0" />
-                            <c:forEach var="item" items="${sessionScope.cart.cartItems}">
+                            <c:forEach var="item" items="${sessionScope.cart.cart_items}">
                                 <tr>
                                     <td class="shoping__cart__item">
                                         <img src="img/cart/cart-1.jpg" alt="">
@@ -81,24 +80,42 @@
                                     <td class="shoping__cart__price">
                                             ${item.product.price}
                                     </td>
-                                    <td class="shoping__cart__quantity">
-                                        <div class="quantity">
-                                            <div class="pro-qty">
-                                                <input type="number" name="quantity" value="1" min="1">
+                                    <td>
+                                        <div class="input-group mb-3 d-flex align-items-center quantity-container" style="max-width: 120px; margin-left: 70px;width: 340px;
+	height: 50px;display: inline-block;
+	position: relative;
+	text-align: center;
+	background: #f5f5f5;">
+                                            <div class="input-group-prepend">
+                                                <form action="UpdateQuantity" method="post">
+                                                    <input type="hidden" name=idproduct value="${item.product.productId}">
+                                                    <input type="hidden" name="quantity" value="${item.quantity - 1}">
+                                                    <button type="submit" class="btn btn-outline-black">-</button>
+                                                </form>
+                                            </div>
+                                            <input type="text" class="form-control text-center quantity-amount" value="${item.quantity}" readonly>
+                                            <div class="input-group-appendd">
+                                                <form action="UpdateQuantity" method="post">
+                                                    <input type="hidden" name="idproduct" value="${item.product.productId}">
+                                                    <input type="hidden" name="quantity" value="${item.quantity + 1}">
+                                                    <button type="submit" class="btn btn-outline-black">+</button>
+                                                </form>
                                             </div>
                                         </div>
                                     </td>
-                                    <c:set var="total" value="${total + (item.product.price * item.quantity)}" />
                                     <td class="shoping__cart__total">
-                                            ${total}
+                                            ${item.product.price * item.quantity}
                                     </td>
-                                    <form action="RemoveItemCart" method="post">
                                         <td class="shoping__cart__item__close">
+                                            <form action="RemoveItemCart" method="post">
                                             <input type="hidden" name="productId" value="${item.product.productId}">
                                             <button type="submit" class="icon_close" style="border: none; background-color: transparent;"></button>
+                                            </form>
                                         </td>
-                                    </form>
+
                                 </tr>
+                                <c:set var="subtotal" value="${subtotal + (item.product.price * item.quantity)}" />
+                                <c:set var="total" value="${total + (item.product.price * item.quantity)}" />
                             </c:forEach>
 
                             </tbody>
@@ -109,8 +126,8 @@
             <div class="row">
                 <div class="col-lg-12">
                     <div class="shoping__cart__btns">
-                        <a href="#" class="primary-btn cart-btn">CONTINUE SHOPPING</a>
-                        <a href="#" class="primary-btn cart-btn cart-btn-right"><span class="icon_loading"></span>
+                        <a href="/Shopgrid" class="primary-btn cart-btn">CONTINUE SHOPPING</a>
+                        <a href="/Cart" class="primary-btn cart-btn cart-btn-right"><span class="icon_loading"></span>
                             Upadate Cart</a>
                     </div>
                 </div>
@@ -129,8 +146,8 @@
                     <div class="shoping__checkout">
                         <h5>Cart Total</h5>
                         <ul>
-                            <li>Subtotal <span>$454.98</span></li>
-                            <li>Total <span>$454.98</span></li>
+                            <li>Subtotal <span>${subtotal}</span></li>
+                            <li>Total <span>${total}</span></li>
                         </ul>
                         <a href="#" class="primary-btn">PROCEED TO CHECKOUT</a>
                     </div>
